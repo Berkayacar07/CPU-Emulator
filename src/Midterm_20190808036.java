@@ -23,6 +23,7 @@ class CPU {
     static int AC = 0;
     static int PC;
     static int F = 0;
+    static boolean status=false;
 
     public void dosyaOkuX() {
         File file = new File("program.txt");
@@ -56,9 +57,18 @@ class CPU {
     }
 
     public void instructionSetOperations() {
+        for (int i = 0; i < program.size(); i++) {
+            if(program.get(i).equals("START")){
+                START();
+                PC= Integer.parseInt(program.get(i-1));
+            }
+        }
+        if(!status){
+            System.exit(0);
+        }
         while (true) {
             for (int i = 0; i < program.size(); i++) {
-                if ((program.get(i)).equals(String.valueOf(PC))) {
+                if ((program.get(i)).equals(String.valueOf(PC))){
                     if (program.get(i + 1).equals("START")) {
                         START();
                     } else if (program.get(i + 1).equals("HALT")) {
@@ -90,86 +100,84 @@ class CPU {
                     } else if (program.get(i + 1).equals("CJMP")) {
                         CJMP(i + 1);
                     }
+                }
             }
         }
     }
-}
 
 
-public void HALT(){
+    public void HALT(){
         System.exit(0);
-        }
+    }
     public void START() {
+        status=true;
         PC++;
     }
 
-public void LOAD(int index){
+    public void LOAD(int index){
         AC=Integer.parseInt(program.get(index+1));
         PC=Integer.parseInt(program.get(index+2));
-        }
+    }
 
-public void ADD(int index){
+    public void ADD(int index){
         AC+=Integer.parseInt(program.get(index+1));
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void ADDM(int index){
+    }
+    public void ADDM(int index){
         AC+=M[Integer.parseInt(program.get(index+1))];
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void SUBM(int index){
+    }
+    public void SUBM(int index){
         AC-=M[Integer.parseInt(program.get(index+1))];
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void SUB(int index){
+    }
+    public void SUB(int index){
         AC-=Integer.parseInt(program.get(index+1));
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void MUL(int index){
+    }
+    public void MUL(int index){
         AC*=Integer.parseInt(program.get(index+1));
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void MULM(int index){
+    }
+    public void MULM(int index){
         AC*=M[Integer.parseInt(program.get(index+1))];
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void STORE(int index){
+    }
+    public void STORE(int index){
         M[Integer.parseInt(program.get(index+1))]=AC;
         PC=Integer.parseInt(program.get(index+2));
 
-        }
-public void DISP(){
+    }
+    public void DISP(){
         System.out.println(AC);
         PC++;
-        }
-public void CMPM(int index){
+    }
+    public void CMPM(int index){
         PC=Integer.parseInt(program.get(index+2));
         if(AC>M[Integer.parseInt(program.get(index+1))]){
-        F=1;
+            F=1;
         }else if(AC==M[Integer.parseInt(program.get(index+1))]){
-        F=0;
+            F=0;
         }else{
-        F=-1;
+            F=-1;
         }
-        }
-public void JMP(int index){
+    }
+    public void JMP(int index){
         PC=Integer.parseInt(program.get(index+1));
 
-        }
+    }
 
-public void LOADM(int index){
+    public void LOADM(int index){
         AC=M[Integer.parseInt(program.get(index+1))];
         PC=Integer.parseInt(program.get(index+2));
-        }
-public void CJMP(int index){
+    }
+    public void CJMP(int index){
         if(F==1){
-        PC=Integer.parseInt(program.get(index+1));
+            PC=Integer.parseInt(program.get(index+1));
         }else{
             PC++;
         }
-        }
+    }
 
 
-        }
-
-
-//HOCAYA TEXTIN BASINDA NUMARALAR OLACAK MI DİYE SOR..
+}
