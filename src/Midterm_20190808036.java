@@ -2,31 +2,40 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
+
+/**
+ * @author Berkay Acar
+ * @StudentNumber 20190808036
+ * 24.05.2022
+ */
 
 public class Midterm_20190808036 {
     public static void main(String[] args) {
+        // I use args[0] . args[0] is equals to program.txt .
+        // I can run my homework in cmd.This code;
+        //java Midterm_20190808036.java program.txt
+        // program.txt and java file must be same directory.
         CPU cpu = new CPU();
-        cpu.dosyaOku();
-        cpu.dosyaOkuX();
+        cpu.dosyaOku(args[0]);
+        cpu.dosyaOkuX(args[0]);
         cpu.instructionSetOperations();
     }
 }
 
 class CPU {
-    static String[] split;
-    static String[] split2;
-    static ArrayList<String> program = new ArrayList<>();
-    static ArrayList<Integer> PCarraylist = new ArrayList<>();
-    static Integer[] M = new Integer[(int) Math.pow(2, 16)];
-    static int AC = 0;
-    static int PC;
-    static int F = 0;
-    static boolean status=false;
+    public static String[] split;
+    public static String[] split2;
+    public static ArrayList<String> program = new ArrayList<>();
+    public static ArrayList<Integer> pcArrayList = new ArrayList<>();
+    public static Integer[] M = new Integer[256];
+    public static int AC = 0;
+    public static int PC=0;
+    public static int F = 0;
+    public static boolean status=false;
 
-    public void dosyaOkuX() {
-        File file = new File("program.txt");
+    public void dosyaOkuX(String path) {
+        File file = new File(path);
         int index = 0;
         try {
             Scanner text = new Scanner(file);
@@ -42,13 +51,13 @@ class CPU {
         }
     }
 
-    public void dosyaOku() {
+    public void dosyaOku(String path) {
         try (BufferedReader okuyucu = new BufferedReader
-                (new FileReader("program.txt"))) {
+                (new FileReader(path))) {
             String text;
             while ((text = okuyucu.readLine()) != null) {
                 split2 = text.split(" ");
-                PCarraylist.add(Integer.valueOf(split2[0]));
+                pcArrayList.add(Integer.valueOf(split2[0]));
 
             }
         } catch (Exception e) {
